@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>🇺🇸 USA Trivia — SJII Global Family Day</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body>
+
+  <!-- Animated background orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="orb orb-5"></div>
+  <div class="orb orb-6"></div>
+  <div class="orb orb-7"></div>
+  <div class="orb orb-8"></div>
+
+  <!-- ════════════════════════════════════════
+       SCREEN 1 — START
+  ════════════════════════════════════════ -->
+  <div id="screen-start" class="screen active">
+    <div class="card">
+
+      <div class="brand-header">
+        <div class="brand-badge" id="sjiiLogo" title="SJII">
+          <span class="b-school">SJII</span>
+          <span class="b-name">St. Joseph's Institution Int'l</span>
+        </div>
+        <div class="dot"></div>
+        <span class="flag-lg" id="flagIcon">🇺🇸</span>
+        <div class="dot"></div>
+        <div class="brand-badge">
+          <span class="b-school">Global Family Day</span>
+          <span class="b-sub">USA BOOTH</span>
+        </div>
+      </div>
+
+      <div class="game-title">
+        <h1>USA Trivia Challenge</h1>
+        <p>10 Questions · Test Your American Knowledge!</p>
+      </div>
+
+      <div class="sep"></div>
+
+      <label class="form-label" for="playerName">Your Name</label>
+      <input
+        type="text" id="playerName" class="name-input"
+        placeholder="e.g. Alex Johnson"
+        maxlength="24" autocomplete="off"
+      />
+
+      <label class="form-label" style="margin-bottom:8px;">Select Difficulty</label>
+      <div class="diff-buttons">
+        <button class="diff-btn active" data-diff="all">🎯 All</button>
+        <button class="diff-btn" data-diff="easy">🟢 Easy</button>
+        <button class="diff-btn" data-diff="medium">🟡 Medium</button>
+        <button class="diff-btn" data-diff="fun">🎉 Fun</button>
+      </div>
+
+      <button class="btn btn-red btn-full" onclick="startGame()">
+        🚀 &nbsp;Start Quiz
+      </button>
+
+      <div class="start-footer">
+        <button class="btn btn-ghost" onclick="showLeaderboard(true)">
+          🏆 &nbsp;View Leaderboard
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       SCREEN 2 — QUIZ
+  ════════════════════════════════════════ -->
+  <div id="screen-quiz" class="screen">
+
+    <div class="quiz-top">
+      <div class="q-label" id="qCounter">Question 1 / 10</div>
+      <div class="timer-pill">⏱ <span id="timerDisplay">0.0s</span></div>
+      <div class="score-live" id="scoreLive">Score: 0</div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+
+    <div class="card">
+      <div class="diff-badge" id="diffBadge">EASY</div>
+      <div class="q-text" id="qText">Loading…</div>
+      <div class="options-grid" id="optionsGrid"></div>
+
+      <div class="feedback" id="feedback">
+        <div id="feedbackStatus"></div>
+        <div class="feedback-fact" id="feedbackFact"></div>
+      </div>
+
+      <div class="next-wrap" id="nextWrap">
+        <button class="btn btn-gold" id="nextBtn" onclick="nextQuestion()">
+          Next Question →
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       SCREEN 3 — RESULT
+  ════════════════════════════════════════ -->
+  <div id="screen-result" class="screen">
+    <div class="card" style="text-align:center">
+      <div class="result-emoji"    id="rEmoji">🎆</div>
+      <div class="result-label">Your Score</div>
+      <div class="result-score"    id="rScore">0/10</div>
+      <div class="result-time-row" id="rTime">⏱ Time: 0.0 s</div>
+      <div class="result-stars"    id="rStars">⭐⭐⭐⭐⭐</div>
+      <div class="result-msg"      id="rMsg">Great job!</div>
+
+      <div class="result-stats">
+        <div class="stat-item">
+          <div class="stat-icon">✅</div>
+          <div class="stat-label">Correct</div>
+          <div class="stat-value" id="sCorrect">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">❌</div>
+          <div class="stat-label">Wrong</div>
+          <div class="stat-value" id="sWrong">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-label">Avg / Q</div>
+          <div class="stat-value" id="sAvg">0 s</div>
+        </div>
+      </div>
+
+      <div class="result-btns">
+        <button class="btn btn-gold" onclick="showLeaderboard(false)">🏆 Leaderboard</button>
+        <button class="btn btn-blue" onclick="resetToStart()">🔄 Play Again</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       SCREEN 4 — LEADERBOARD
+  ════════════════════════════════════════ -->
+  <div id="screen-leaderboard" class="screen">
+    <div class="card">
+      <div class="lb-title">🏆 Top 10 Leaderboard</div>
+      <div class="lb-sub">SJII Global Family Day · USA Booth · Score then Speed</div>
+      <div id="lbContent"></div>
+      <div class="lb-actions">
+        <button class="btn btn-red"  onclick="resetToStart()">🎮 Play Again</button>
+        <button class="btn btn-ghost" onclick="showScreen('screen-start')">🏠 Home</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       SCREEN 5 — ADMIN (secret)
+       Access: URL ?admin  OR click flag 7×
+  ════════════════════════════════════════ -->
+  <div id="screen-admin" class="screen">
+    <div class="card">
+
+      <div class="admin-header">
+        <div class="admin-badge">🔒 ADMIN PANEL</div>
+        <h2>Booth Management</h2>
+        <p>SJII Global Family Day · USA Booth</p>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="admin-stats" id="adminStats"></div>
+      <div id="adminLbContent"></div>
+
+      <div class="sep"></div>
+
+      <div class="admin-actions">
+        <button class="btn btn-red" onclick="adminReset()">
+          🗑 &nbsp;Reset Leaderboard
+        </button>
+        <button class="btn btn-blue" onclick="adminCopy()">
+          📋 &nbsp;Copy Results
+        </button>
+        <button class="btn btn-ghost" onclick="showScreen('screen-start')">
+          ← Back to Game
+        </button>
+      </div>
+
+      <div id="adminMsg"></div>
+
+    </div>
+  </div>
+
+</body>
+</html>
