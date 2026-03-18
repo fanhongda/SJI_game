@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-A self-contained, browser-based quiz game built for the **USA Booth** at SJII's Global Family Day. Designed for **elementary school students (Grade 4+)**. Runs offline on a single laptop — no server or internet required after initial load (except canvas-confetti CDN).
+A self-contained, browser-based quiz game built for the **USA Booth** at SJII's Global Family Day. Designed for **elementary school students (Grade 1 to 6)**. Runs offline on a single laptop — no server or internet required after initial load (except canvas-confetti CDN).
 
 ---
 
@@ -14,9 +14,9 @@ A self-contained, browser-based quiz game built for the **USA Booth** at SJII's 
 
 ```
 SJI_game/
-├── index.html       — HTML skeleton (5 screens)
+├── index.html       — HTML skeleton (3 screens)
 ├── style.css        — All styles, animations, responsive layout
-├── game.js          — 200-question bank + full game logic
+├── game.js          — 11 fixed questions (10 regular + 1 bonus) + full game logic
 └── assets/
     └── README.md    — This file
 ```
@@ -28,55 +28,24 @@ SJI_game/
 ### Gameplay
 | Feature | Detail |
 |---|---|
-| Questions | 175-question bank, 10 randomly selected per round |
-| Difficulty levels | Easy · Medium · Fun (all Grade 4+ appropriate) |
+| Questions | 11 fixed questions — 10 regular + 1 bonus challenge, always in order |
 | Timer | Counts up in milliseconds, displayed in 0.1s precision |
 | Feedback | Correct/wrong animation + interesting fact after each answer |
 | Completion sounds | Web Audio API — no audio files needed |
 | Confetti | `canvas-confetti` CDN burst on correct; full fanfare at 10/10 |
+| Bonus Challenge | ⭐ Special 11th question after Q10 — does not affect main score |
 
-### Leaderboard
-| Feature | Detail |
-|---|---|
-| Storage | `localStorage` — persists across sessions on the same device |
-| Capacity | Top 10 entries only |
-| Sorting | Primary: score (high→low) · Secondary: time (fast→slow) |
-| Tie-breaker | Two players with 10/10 — faster time ranks higher |
-| Difficulty shown | Each entry records which difficulty was played |
-| Player highlight | Current player's entry is highlighted with a **YOU** badge |
-
-### Difficulty Levels
-
-| Level | Description | Count |
-|---|---|---|
-| 🎯 All | Random mix from all 175 questions | 175 |
-| 🟢 Easy | Basic USA geography, symbols & history — Grade 4–5 | 50 |
-| 🟡 Medium | Intermediate history, science & culture — Grade 5–7 | 50 |
-| 🎉 Fun | Cartoons, food, holidays, sports & quirky facts | 75 |
 
 ### Score Feedback Messages
 
 | Score | Message |
 |---|---|
+| **10/10 + Bonus ✅** | *"LEGEND! 🌟 All 11 correct in just Xs — True USA Master!"* |
 | **10/10** | *"Absolute Genius! 🎆 All 10 correct in just Xs!"* |
 | **7–9/10** | *"Great Job, Patriot! 🦅 You really know your USA facts!"* |
 | **<7/10** | *"Thanks for visiting the USA Booth! 🇺🇸 Keep exploring America!"* |
 
-### Secret Admin Panel
 
-For booth staff to reset or export the leaderboard without disrupting play.
-
-| Method | How |
-|---|---|
-| URL parameter | Open `index.html?admin` in the browser |
-| Easter egg | Click the 🇺🇸 flag **7 times** within 5 seconds on the start screen |
-
-**Admin functions:**
-- View current leaderboard with stats (player count, top score, fastest time)
-- **Reset leaderboard** (with confirmation dialog)
-- **Copy results to clipboard** (formatted plain text for sharing/printing)
-
----
 
 ## Design System
 
@@ -125,7 +94,6 @@ All interactive elements meet the **44pt minimum touch target** size for iOS/iPa
 | Language | Vanilla HTML5 + CSS3 + ES6 JavaScript |
 | Audio | Web Audio API (no external files) |
 | Confetti | [canvas-confetti](https://www.npmjs.com/package/canvas-confetti) v1.9.3 via jsDelivr CDN |
-| Storage | `localStorage` (browser, device-local) |
 | Dependencies | **None** (CDN only for confetti) |
 
 ---
@@ -145,14 +113,44 @@ python3 -m http.server 8080
 
 ---
 
-## Question Bank Summary
+## Question List
 
-175 questions covering:
-- US geography (states, capitals, rivers, mountains)
-- American history (founding, Civil War, WWII, civil rights)
-- Government & constitution (amendments, branches, landmark cases)
-- US culture (food, sports, entertainment, inventions)
-- Fun & quirky American facts
+**Q1.** How many states are there in the United States?
+- A) 48 · B) 49 · **C) 50 ✅** · D) 52
+
+**Q2.** What do the 13 stripes on the U.S. flag represent?
+- A) 13 presidents · **B) 13 original colonies ✅** · C) 13 cities · D) 13 rivers
+
+**Q3.** Which famous document begins with "We the People"?
+- A) Declaration of Independence · B) Bill of Rights · **C) U.S. Constitution ✅** · D) Gettysburg Address
+
+**Q4.** Who was President during the American Civil War?
+- A) George Washington · B) Thomas Jefferson · **C) Abraham Lincoln ✅** · D) John F. Kennedy
+
+**Q5.** What is the largest state in the USA by size?
+- A) Texas · B) California · **C) Alaska ✅** · D) Florida
+
+**Q6.** Which ocean is on the west coast of the United States?
+- A) Atlantic Ocean · B) Indian Ocean · **C) Pacific Ocean ✅** · D) Arctic Ocean
+
+**Q7.** What is the capital city of California?
+- A) Los Angeles · B) San Francisco · **C) Sacramento ✅** · D) San Diego
+
+**Q8.** What does "DC" stand for in Washington, D.C.?
+- A) District City · **B) District of Columbia ✅** · C) Downtown Center · D) Direct Capital
+
+**Q9.** Which famous American leader helped end slavery?
+- A) George Washington · B) Benjamin Franklin · **C) Abraham Lincoln ✅** · D) Theodore Roosevelt
+
+**Q10.** Which landmark is carved into a mountain with four U.S. presidents?
+- A) Statue of Liberty · **B) Mount Rushmore ✅** · C) Golden Gate Bridge · D) Empire State Building
+
+---
+
+### ⭐ Bonus Challenge Question (Make it "WOW!")
+
+**Q11.** Which two states are NOT connected to the mainland USA?
+- A) Alaska & Puerto Rico · **B) Alaska & Hawaii ✅** · C) Hawaii & Guam · D) Hawaii & Puerto Rico
 
 ---
 
@@ -160,7 +158,7 @@ python3 -m http.server 8080
 
 - Built for **SJII Global Family Day** USA Booth
 - Designed and developed with Claude Code (Anthropic)
-- Questions curated for **Grade 4+** through high school level
+
 
 ---
 
